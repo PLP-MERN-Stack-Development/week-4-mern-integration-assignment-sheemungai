@@ -107,6 +107,10 @@ export const authService = {
   // Register a new user
   register: async (userData) => {
     const response = await api.post('/auth/register', userData);
+    if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.data));
+    }
     return response.data;
   },
 
@@ -115,7 +119,7 @@ export const authService = {
     const response = await api.post('/auth/login', credentials);
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('user', JSON.stringify(response.data.data));
     }
     return response.data;
   },
